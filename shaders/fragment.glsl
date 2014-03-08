@@ -1,5 +1,6 @@
 #version 330
-in vec3 normal, position;
+in vec3 position;
+in vec3 normal;
 in vec2 textureCoords;
 out vec4 frag_color;
 uniform mat4 view;
@@ -26,15 +27,12 @@ void main () {
     float dotProduct = dot(directionToLight,norm);
     dotProduct = max(dotProduct,0.0);
     vec3 intenseDiffuse = lightDiffuse * reflectDiffuse * dotProduct;
-//    vec3 intenseDiffuse = vec3(0.0,0.0,0.0);
     vec3 reflection = reflect(-directionToLight,norm);
     vec3 surfaceToViewer = normalize(-position);
     float dotProductSpec = dot(reflection,surfaceToViewer);
     dotProductSpec = max(dotProductSpec,0.0);
     float specFactor = pow(dotProductSpec,power);
     vec3 intenseSpec = lightSpec * reflectDiffuse * specFactor * 0.2f;
-//    vec3 intenseSpec = vec3(0.0,0.0,0.0);
     vec3 totalLight = intenseSpec+intenseDiffuse+intenseAmbient;
     frag_color=vec4(totalLight,1.0);
-//      frag_color=texel;
 }
